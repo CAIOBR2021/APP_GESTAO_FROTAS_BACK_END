@@ -2,7 +2,13 @@
 
 import express from 'express';
 import cors from 'cors';
-import { addEntrega, getEntregas, initDb, deleteEntrega, updateEntrega } from './database';
+import {
+  addEntrega,
+  getEntregas,
+  initDb,
+  deleteEntrega,
+  updateEntrega,
+} from './database';
 import { Entrega } from './types';
 
 const app = express();
@@ -19,7 +25,7 @@ app.use(
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error('Acesso negado pelo CORS'));
       }
     },
   }),
@@ -53,7 +59,6 @@ app.post('/api/entregas', async (req, res) => {
   }
 });
 
-
 // Rota para deletar uma entrega (DELETE /api/entregas/:id)
 app.delete('/api/entregas/:id', async (req, res) => {
   try {
@@ -77,7 +82,7 @@ app.put('/api/entregas/:id', async (req, res) => {
     }
     const entregaAtualizada: Entrega = req.body;
     await updateEntrega(id, entregaAtualizada);
-    res.status(200).json({ message: `Entrega #${id} atualizada com sucesso.`});
+    res.status(200).json({ message: `Entrega #${id} atualizada com sucesso.` });
   } catch (error) {
     console.error('Erro ao atualizar entrega:', error);
     res.status(500).json({ message: 'Erro interno do servidor' });
